@@ -1,25 +1,38 @@
 import streamlit as st
 
+from demo_01_inference import chat_completion_with_inference
+from demo_03_inference_with_rag import chat_with_rag_enabled_inference
+from demo_04_agent import chat_with_simple_agent, create_simple_agent_session
+from demo_05_web_search_tool_agent import create_websearch_tool_agent_session, chat_with_websearch_tool_agent
+from demo_06_dev_conf_agent import create_dev_conf_cz_agent_session, chat_with_dev_conf_cz_agent
+
 
 # --- Sample functions ---
 def chat_with_inference(query):
-    return "not implemented"
+    return chat_completion_with_inference(query)
 
 
 def chat_with_rag_inference(query):
-    return "not implemented"
+    return chat_with_rag_enabled_inference(query)
 
 
 def chat_with_agent(query):
-    return "not implemented"
-
+    if "chat_with_agent" not in st.session_state:
+        st.session_state["chat_with_agent"] = create_simple_agent_session("chat_with_agent")
+    return chat_with_simple_agent(st.session_state["chat_with_agent"], query)
 
 def chat_with_agent_with_web_search_tool(query):
-    return "not implemented"
-
+    if "chat_with_web_search_tool_agent" not in st.session_state:
+        st.session_state["chat_with_web_search_tool_agent"] = create_websearch_tool_agent_session("chat_with_web_search_tool_agent")
+    return chat_with_websearch_tool_agent(st.session_state["chat_with_web_search_tool_agent"], query)
 
 def dev_conf_agent(query):
-    return "not implemented"
+    if "dev_conf_agent_session_id" not in st.session_state:
+        st.session_state["dev_conf_agent_session_id"] = create_dev_conf_cz_agent_session("dev_conf_agent_chat_app")
+    return chat_with_dev_conf_cz_agent(st.session_state["dev_conf_agent_session_id"], query)
+
+def dev_conf__with_web_search_agent(query):
+    pass
 
 
 # --- Function map ---
@@ -29,6 +42,7 @@ FUNCTIONS = {
     "Simple Agent": chat_with_agent,
     "Agent with Web Search": chat_with_agent_with_web_search_tool,
     "Chat With Dev Conf CZ Agent": dev_conf_agent,
+    "Chat With MCP Agent": dev_conf__with_web_search_agent,
 }
 
 # --- Page Setup ---

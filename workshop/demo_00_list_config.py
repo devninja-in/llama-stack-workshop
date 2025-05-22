@@ -4,13 +4,19 @@ import os
 
 load_dotenv()
 
-# create llama stack client
+client = LlamaStackClient(base_url=os.environ["LLAMA_STACK_SERVER"])
 
+models = client.models.list()
+print("\nModels:")
+for model in models:
+    print(model)
 
-# fetch all configured models
+shields = client.shields.list()
+print("\nShields:")
+for shield in shields:
+    print(shield)
 
-
-# fetch all configured tools
-
-
-# fetch all configured vector dbs
+vector_dbs = client.vector_dbs.list()
+print("\nVector DBs:")
+for vector_db in vector_dbs:
+    print(vector_db)
